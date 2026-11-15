@@ -1,0 +1,12 @@
+---
+detection:
+  A:
+    all(phrase): ['*quick*', '*brown*', '?l.zy', '?d.g']
+  condition: A
+
+true_positives:
+  - phrase: the quick brown fox jumps over the lazy dog
+
+true_negatives:
+  - phrase: the quick fox jumps over the lazy dog
+  - phrase: the quick brown fox jumps over the dog

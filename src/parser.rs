@@ -1461,7 +1461,7 @@ fn parse_mapping(mapping: &Mapping) -> crate::Result<Expression> {
                         group.push(Expression::Search(s, f.to_owned(), cast));
                     } else {
                         multiple = true;
-                        group.push(Expression::Search(
+                        let expr = Expression::Search(
                             Search::AhoCorasick(
                                 Box::new(
                                     AhoCorasickBuilder::new()
@@ -1474,12 +1474,17 @@ fn parse_mapping(mapping: &Mapping) -> crate::Result<Expression> {
                             ),
                             f.to_owned(),
                             cast,
-                        ));
+                        );
+                        if let Expression::Match(Match::All, _) = &e {
+                            group.push(Expression::Match(Match::All, Box::new(expr)));
+                        } else {
+                            group.push(expr);
+                        }
                     }
                 }
                 if !ineedles.is_empty() {
                     multiple = true;
-                    group.push(Expression::Search(
+                    let expr = Expression::Search(
                         Search::AhoCorasick(
                             Box::new(
                                 AhoCorasickBuilder::new()
@@ -1493,7 +1498,12 @@ fn parse_mapping(mapping: &Mapping) -> crate::Result<Expression> {
                         ),
                         f.to_owned(),
                         cast,
-                    ));
+                    );
+                    if let Expression::Match(Match::All, _) = &e {
+                        group.push(Expression::Match(Match::All, Box::new(expr)));
+                    } else {
+                        group.push(expr);
+                    }
                 }
                 if !regex_set.is_empty() {
                     if regex_set.len() == 1 {
@@ -1507,7 +1517,7 @@ fn parse_mapping(mapping: &Mapping) -> crate::Result<Expression> {
                         ));
                     } else {
                         multiple = true;
-                        group.push(Expression::Search(
+                        let expr = Expression::Search(
                             Search::RegexSet(
                                 RegexSetBuilder::new(
                                     regex_set
@@ -1521,7 +1531,12 @@ fn parse_mapping(mapping: &Mapping) -> crate::Result<Expression> {
                             ),
                             f.to_owned(),
                             cast,
-                        ));
+                        );
+                        if let Expression::Match(Match::All, _) = &e {
+                            group.push(Expression::Match(Match::All, Box::new(expr)));
+                        } else {
+                            group.push(expr);
+                        }
                     }
                 }
                 if !iregex_set.is_empty() {
@@ -1536,7 +1551,7 @@ fn parse_mapping(mapping: &Mapping) -> crate::Result<Expression> {
                         ));
                     } else {
                         multiple = true;
-                        group.push(Expression::Search(
+                        let expr = Expression::Search(
                             Search::RegexSet(
                                 RegexSetBuilder::new(
                                     iregex_set
@@ -1551,7 +1566,12 @@ fn parse_mapping(mapping: &Mapping) -> crate::Result<Expression> {
                             ),
                             f.to_owned(),
                             cast,
-                        ));
+                        );
+                        if let Expression::Match(Match::All, _) = &e {
+                            group.push(Expression::Match(Match::All, Box::new(expr)));
+                        } else {
+                            group.push(expr);
+                        }
                     }
                 }
                 group.extend(rest);

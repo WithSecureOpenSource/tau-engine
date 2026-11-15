@@ -66,6 +66,7 @@ solve_rule!("match_all");
 solve_rule!("match_all_duplicate");
 solve_rule!("match_all_identifier");
 solve_rule!("match_all_matrix");
+solve_rule!("match_all_mixed");
 solve_rule!("match_of_0");
 solve_rule!("match_of_1");
 solve_rule!("match_of_2");

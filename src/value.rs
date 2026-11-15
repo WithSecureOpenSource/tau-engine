@@ -577,7 +577,7 @@ pub trait Object {
                     None => {
                         let value = <Self as Object>::get(self, k)?;
                         v = Some(value)
-                    },
+                    }
                 }
             }
         }

@@ -915,15 +915,16 @@ fn shake_1(expression: Expression) -> Expression {
             let right = shake_1(*right);
             Expression::BooleanExpression(Box::new(left), symbol, Box::new(right))
         }
-        Expression::Match(kind, expression) => match *expression {
+        Expression::Match(kind0, expression) => match *expression {
             Expression::BooleanGroup(symbol, expressions) => {
                 let mut scratch = vec![];
                 for expression in expressions {
                     scratch.push(shake_1(expression));
                 }
-                Expression::Match(kind, Box::new(Expression::BooleanGroup(symbol, scratch)))
+                Expression::Match(kind0, Box::new(Expression::BooleanGroup(symbol, scratch)))
             }
-            expression => Expression::Match(kind, Box::new(shake_1(expression))),
+            Expression::Match(ref kind1, _) if &kind0 == kind1 => shake_1(*expression),
+            expression => Expression::Match(kind0, Box::new(shake_1(expression))),
         },
         Expression::Negate(expression) => Expression::Negate(Box::new(shake_1(*expression))),
         Expression::Nested(field, expression) => {

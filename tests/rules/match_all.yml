@@ -1,9 +1,7 @@
+---
 detection:
   A:
-    all(phrase):
-    - "*quick*"
-    - "*brown*"
-
+    all(phrase): ['*quick*', '*brown*']
   condition: A
 
 true_positives:
@@ -11,3 +9,4 @@ true_positives:
 
 true_negatives:
   - phrase: lorem ipsum dolor sit amet
+  - phrase: the quick fox jumps over the lazy dog
